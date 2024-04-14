@@ -166,6 +166,61 @@ FROM
 WHERE
   Major_Type = 'Humanities-Related'
 
+-- STEM-Related:
+
+WITH CTE AS (
+  SELECT
+    CASE
+      WHEN sfc.Standardized_Major IN (
+        'Architecture',
+        'Design',
+        'Desgin',
+        'Film',
+        'Media',
+        'Music'
+      ) THEN 'Arts-Related'
+      WHEN sfc.Standardized_Major IN (
+        'Biology',
+        'Chemistry',
+        'Computer Science',
+        'Mathematics',
+        'Physics',
+        'Electrical Engineering',
+        'Engineering',
+        'Mechanical Engineering',
+        'Cognitive Science',
+        'Operations Research',
+        'Opreations Research',
+        'Geology'
+      ) THEN 'STEM-Related'
+      WHEN sfc.Standardized_Major IN ('Business', 'Economics') THEN 'Business-Related'
+      WHEN sfc.Standardized_Major IN (
+        'English',
+        'History',
+        'International Relations',
+        'Philosophy',
+        'Political Science',
+        'Psychology',
+        'Sociology',
+        'Language',
+        'Public Policy',
+        'Interdisciplinary Degree'
+      ) THEN 'Humanities-Related'
+    END AS Major_Type,
+    sv.Seed_Valuation
+  FROM
+    startup_valuations.startup_founder_chars_cleaned AS sfc
+    LEFT JOIN startup_valuations.startup_valuations_cleaned AS sv ON sfc.Full_Name = sv.Full_Name
+  WHERE
+    sv.Seed_Valuation IS NOT NULL
+)
+SELECT
+  Seed_Valuation
+FROM
+  CTE
+WHERE
+  Major_Type = 'STEM-Related'
+
 -- Previous Startup Experience of Founders (Before Founding Primary Company):
   
 SELECT
@@ -407,7 +462,7 @@ FROM
 ORDER BY
   number_of_founders DESC
 
--- 
+-- Founders By Ivy League University Status:
   
 SELECT
   CASE
@@ -421,7 +476,9 @@ GROUP BY
   1
 ORDER BY
   2 DESC
-###
+
+-- Average Years of Employment (Before Founding Primary Company) By Ivy League University Status:
+  
 SELECT
   CASE
     WHEN Ivy_League = 1 THEN 'Ivy_League'
@@ -432,12 +489,16 @@ FROM
   startup_valuations.startup_founder_chars_cleaned
 GROUP BY
   1
-###
+
+-- Companies By Valuation Per Fundraising Round:
+  
 SELECT
   *
 FROM
   startup_valuations.startup_valuations_cleaned
-###
+
+-- Series B Valuation By Company (Percent Difference vs. Predecessor)
+  
 SELECT
   Primary_Company,
   B_Valuation,
@@ -467,7 +528,9 @@ FROM
   startup_valuations.startup_valuations_cleaned
 ORDER BY
   B_Valuation DESC
-###
+
+-- Seed Valuation By Percentile:
+  
 WITH subquery AS (
   SELECT
     Seed_Valuation
@@ -487,7 +550,9 @@ FROM
     FROM
       subquery
   )
-###
+
+-- Series A Valuation By Percentile:
+  
 WITH subquery AS (
   SELECT
     A_Valuation
@@ -507,7 +572,9 @@ FROM
     FROM
       subquery
   )
-###
+
+-- Series B Valuation By Percentile:
+  
 WITH subquery AS (
   SELECT
     B_Valuation
@@ -527,14 +594,18 @@ FROM
     FROM
       subquery
   )
-###
+
+-- Average Valuation Per Fundraising Round:
+  
 SELECT
   AVG(Seed_Valuation) AS Avg_Seed_Valuation,
   AVG(A_Valuation) AS Avg_A_Valuation,
   AVG(B_Valuation) AS Avg_B_Valuation
 FROM
   startup_valuations.startup_valuations_cleaned
-###
+
+-- Average Seed Valuation By Ivy League Status:
+  
 WITH CTE AS (
   SELECT
     sfc.Ivy_League,
@@ -555,7 +626,9 @@ GROUP BY
   1
 ORDER BY
   2 DESC
-###
+
+-- Average Seed Valuation By Major Type:
+  
 WITH CTE AS (
   SELECT
     sfc.Standardized_Major,
@@ -611,7 +684,9 @@ GROUP BY
   1
 ORDER BY
   2 DESC
-###
+
+-- Average Seed Valuation By (Undergraduate) Universities In Terms of Number of Founders:
+  
 WITH CTE AS (
   SELECT
     sfc.Standardized_University,
@@ -654,7 +729,9 @@ GROUP BY
   1
 ORDER BY
   2 DESC
-###
+
+-- seed_valuation_ivy_league:
+  
 WITH CTE AS (
   SELECT
     CASE
@@ -674,7 +751,9 @@ FROM
   CTE
 WHERE
   Ivy_League_Status = 'Ivy_League'
-###
+
+-- seed_valuation_not_ivy_league:
+  
 WITH CTE AS (
   SELECT
     CASE
@@ -694,12 +773,16 @@ FROM
   CTE
 WHERE
   Ivy_League_Status = 'Not_Ivy_League'
-###
+
+-- startup_founder_chars:
+  
 SELECT
   *
 FROM
   startup_valuations.startup_founder_chars
-###
+
+-- startup_founder_chars_cleaned:
+  
 SELECT
   CAST(Full_Name AS STRING) AS Full_Name,
   CAST(Primary_Company AS STRING) AS Primary_Company,
@@ -761,12 +844,16 @@ FROM
     FROM
       `startup_valuations.startup_founder_chars`
   )
-###
+
+-- startup_valuations:
+  
 SELECT
   *
 FROM
   startup_valuations.startup_valuations
-###
+
+-- startup_valuations_cleaned:
+  
 SELECT
   Full_Name,
   Primary_Company,
@@ -803,57 +890,3 @@ FROM
       AND A_Valuation != 0
       AND B_Valuation != 0
   )
-###
-WITH CTE AS (
-  SELECT
-    CASE
-      WHEN sfc.Standardized_Major IN (
-        'Architecture',
-        'Design',
-        'Desgin',
-        'Film',
-        'Media',
-        'Music'
-      ) THEN 'Arts-Related'
-      WHEN sfc.Standardized_Major IN (
-        'Biology',
-        'Chemistry',
-        'Computer Science',
-        'Mathematics',
-        'Physics',
-        'Electrical Engineering',
-        'Engineering',
-        'Mechanical Engineering',
-        'Cognitive Science',
-        'Operations Research',
-        'Opreations Research',
-        'Geology'
-      ) THEN 'STEM-Related'
-      WHEN sfc.Standardized_Major IN ('Business', 'Economics') THEN 'Business-Related'
-      WHEN sfc.Standardized_Major IN (
-        'English',
-        'History',
-        'International Relations',
-        'Philosophy',
-        'Political Science',
-        'Psychology',
-        'Sociology',
-        'Language',
-        'Public Policy',
-        'Interdisciplinary Degree'
-      ) THEN 'Humanities-Related'
-    END AS Major_Type,
-    sv.Seed_Valuation
-  FROM
-    startup_valuations.startup_founder_chars_cleaned AS sfc
-    LEFT JOIN startup_valuations.startup_valuations_cleaned AS sv ON sfc.Full_Name = sv.Full_Name
-  WHERE
-    sv.Seed_Valuation IS NOT NULL
-)
-SELECT
-  Seed_Valuation
-FROM
-  CTE
-WHERE
-  Major_Type = 'STEM-Related'
-###
