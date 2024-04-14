@@ -1,5 +1,4 @@
--- Startup Founder Valuations (Kaggle) Dataset:
--- https://www.kaggle.com/datasets/firmai/startup-founder-valuations-dataset
+-- Startup Founder Valuations (Kaggle) Dataset: https://www.kaggle.com/datasets/firmai/startup-founder-valuations-dataset
 
 -- Art-Related:
 
