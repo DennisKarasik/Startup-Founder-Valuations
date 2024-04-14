@@ -10,7 +10,7 @@
 
 • This dataset contains two CSV files titled `startup_founder_chars` and `startup_valuations`
 
-• For more info, visit: # https://www.kaggle.com/datasets/firmai/startup-founder-valuations-dataset
+• For more info, visit: https://www.kaggle.com/datasets/firmai/startup-founder-valuations-dataset
 
 **Data Processing and Analysis:**
 
