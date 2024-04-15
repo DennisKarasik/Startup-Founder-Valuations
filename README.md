@@ -1,6 +1,6 @@
 **Project Summary:**
 
-• Analyzed the characteristics and valuation data of hundreds of startup founders, conducting data cleaning in BigQuery SQL, report building in Mode Analytics, and statistical analysis in Python, generating insights about founder backgrounds and their impact on startup success
+• Analyzed the characteristics and valuation data of hundreds of startup founders using BigQuery SQL for data cleaning, Mode Analytics for reporting, and Python for statistical analysis, uncovering insights about the influence of founders' backgrounds on startup success
 
 **Dataset Details:**
 
