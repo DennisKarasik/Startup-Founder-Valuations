@@ -1,6 +1,6 @@
 **Project Summary:**
 
-• Analyzed the characteristics and valuation data of hundreds of startup founders using the Startup Founder Valuations Dataset from Kaggle, processed through BigQuery and Mode Analytics; conducted data cleaning in SQL and performed statistical analysis in Python to debunk common myths about founder backgrounds and their impact on startup success
+• Analyzed the characteristics and valuation data of hundreds of startup founders, conducting data cleaning in BigQuery SQL, report building in Mode Analytics, and statistical analysis in Python, generating insights about founder backgrounds and their impact on startup success
 
 **Dataset Details:**
 
